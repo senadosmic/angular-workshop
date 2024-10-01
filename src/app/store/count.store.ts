@@ -1,12 +1,9 @@
-import {patchState, signalStore, withComputed, withMethods, withState} from "@ngrx/signals";
-import {computed, Signal} from "@angular/core";
-
-type CountState = {
-  count: number;
-}
+import {patchState, signalStore, withComputed, withMethods} from "@ngrx/signals";
+import {computed} from "@angular/core";
+import {withCountResource} from "./count-resource.feature";
 
 export const CountStore = signalStore(
-  withState<CountState>({count: 0}),
+  withCountResource(),
   withComputed((store) => ({
     doubleCount: computed(() => store.count() * 2)
   })),
