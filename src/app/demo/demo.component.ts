@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, model, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
@@ -11,19 +11,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
   template: `
     <div>
       <div>
-        <p>{{ count }}</p>
-        <p>{{ doubleCount }}</p>
+        <p>{{ count() }}</p>
+        <p>{{ doubleCount() }}</p>
       </div>
-      <input type="number" [(ngModel)]="countValue">
-      <button (click)="updateDoubleCount.emit(countValue)">Set count value</button>
-      <button (click)="incrementCount.emit()">Increase count</button>
+      <input type="number" [(ngModel)]="count">
     </div>
   `
 })
 export class DemoComponent {
-  countValue: number = 0;
-  @Input() count: number = 0;
-  @Input() doubleCount: number = 0;
-  @Output() updateDoubleCount: EventEmitter<number> = new EventEmitter<number>();
-  @Output() incrementCount: EventEmitter<void> = new EventEmitter<void>();
+  count = model(0);
+  doubleCount = model(0);
 }

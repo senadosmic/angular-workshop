@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, computed, Signal, signal, WritableSignal} from '@angular/core';
 import {DemoComponent} from "./demo/demo.component";
 
 @Component({
@@ -6,10 +6,9 @@ import {DemoComponent} from "./demo/demo.component";
   standalone: true,
   template: `
     <app-demo
-      [count]="count"
-      [doubleCount]="doubleCount"
-      (updateDoubleCount)="updateCount($event)"
-      (incrementCount)="incrementCount()"
+      [count]="count()"
+      [doubleCount]="doubleCount()"
+      (countChange)="updateCount($event)"
     />
   `,
   imports: [
@@ -17,20 +16,10 @@ import {DemoComponent} from "./demo/demo.component";
   ]
 })
 export class AppComponent {
-  count: number = 0;
-  doubleCount: number = 0;
+  count: WritableSignal<number> = signal(0);
+  doubleCount: Signal<number> = computed(() => this.count() * 2);
 
   updateCount(value: number) {
-    this.count = value;
-    this.setDoubleCount(value)
-  }
-
-  incrementCount() {
-    this.count++;
-    this.setDoubleCount(this.count)
-  }
-
-  setDoubleCount(value: number) {
-    this.doubleCount = value * 2;
+    this.count.set(value);
   }
 }
